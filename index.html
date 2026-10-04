@@ -92,7 +92,7 @@
     .tally-bar span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--green); transition: width .3s ease; }
     .tally-meta { display: flex; justify-content: space-between; gap: 10px; margin-top: 7px; color: var(--muted); font-size: 10px; }
     .awaiting { margin: 14px 0 0; padding: 10px 11px; border-radius: 11px; color: #765b2f; background: #f8f0dc; font-size: 11px; line-height: 1.45; }
-    .history-panel { padding: 16px 22px 14px; border-bottom: 1px solid var(--line); }
+    .history-panel { margin-top: 14px; padding: 18px 0 0; border-top: 1px solid var(--line); }
     .history-heading { display: flex; align-items: start; justify-content: space-between; gap: 10px; }
     .history-heading h3 { margin: 0 0 4px; color: #343a38; font-size: 14px; font-weight: 750; letter-spacing: -.02em; }
     .history-heading p { max-width: 390px; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
@@ -165,7 +165,7 @@
       .map-states path { stroke-width: 2; }
       .map-label { font-size: 8px; }
       .results-head { padding: 18px 15px 14px; }
-      .history-panel { padding: 14px 15px 12px; }
+      .history-panel { margin-top: 12px; padding: 14px 0 0; }
       .history-chart, .history-chart svg, .history-empty { min-height: 160px; height: 160px; }
       .results-summary { gap: 6px; }
       .metric { padding: 9px 8px; }
@@ -244,6 +244,17 @@
           </div>
           <div class="map-legend" id="mapLegend" aria-live="polite"><span class="legend-item">Buscando a apuração por estado…</span></div>
           <p class="map-note">Vermelho indica liderança do PT e azul do PL; outros partidos usam cores de apoio. “Eleito” aparece apenas quando consta nos dados oficiais.</p>
+          <section class="history-panel" aria-labelledby="presidentHistoryTitle">
+            <div class="history-heading">
+              <div>
+                <h3 id="presidentHistoryTitle">Evolução dos votos para presidente</h3>
+                <p>O TSE publica o total corrente, sem série histórica. Este navegador começa a guardar cada mudança observada.</p>
+              </div>
+              <span class="history-badge" id="historyCount">Histórico local</span>
+            </div>
+            <div class="history-chart" id="historyChart" aria-live="off"><p class="history-empty">Aguardando a primeira amostra dos resultados nacionais.</p></div>
+            <div class="history-legend" id="historyLegend" aria-label="Candidatos mostrados no gráfico"></div>
+          </section>
         </section>
 
         <section class="card results-card" aria-labelledby="resultTitle">
@@ -265,17 +276,6 @@
             <div class="tally-meta"><span id="tallyLabel">Aguardando dados</span><span id="tallyPercent">—</span></div>
             <p class="awaiting" id="awaitingMessage" hidden></p>
           </div>
-          <section class="history-panel" aria-labelledby="presidentHistoryTitle">
-            <div class="history-heading">
-              <div>
-                <h3 id="presidentHistoryTitle">Evolução dos votos para presidente</h3>
-                <p>O TSE publica o total corrente, sem série histórica. Este navegador começa a guardar cada mudança observada.</p>
-              </div>
-              <span class="history-badge" id="historyCount">Histórico local</span>
-            </div>
-            <div class="history-chart" id="historyChart" aria-live="off"><p class="history-empty">Aguardando a primeira amostra dos resultados nacionais.</p></div>
-            <div class="history-legend" id="historyLegend" aria-label="Candidatos mostrados no gráfico"></div>
-          </section>
           <div id="resultMessage" class="message" hidden></div>
           <div class="candidate-list" id="candidateList" aria-live="polite"><div class="loading-sheen" style="height:58px; margin:12px 0"></div><div class="loading-sheen" style="height:58px; margin:12px 0"></div><div class="loading-sheen" style="height:58px; margin:12px 0"></div></div>
           <button id="moreCandidates" class="more-button" type="button" hidden>Mostrar mais candidaturas</button>
