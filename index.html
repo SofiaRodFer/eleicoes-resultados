@@ -66,8 +66,8 @@
     .map-toggle { display: inline-flex; flex: 0 0 auto; gap: 3px; padding: 4px; border: 1px solid #e3e8df; border-radius: 12px; background: #f6f7f2; }
     .map-toggle button { padding: 8px 10px; border: 0; border-radius: 9px; color: #68766f; background: transparent; font-size: 11px; font-weight: 700; }
     .map-toggle button[aria-pressed="true"] { color: var(--green-dark); background: white; box-shadow: 0 2px 7px rgba(33,78,68,.09); }
-    .map-wrap { position: relative; display: grid; place-items: center; min-height: 392px; margin: 2px auto 0; }
-    .br-map { display: block; width: min(100%, 510px); max-height: 490px; overflow: visible; }
+    .map-wrap { position: relative; display: grid; place-items: center; min-height: 520px; margin: 2px auto 0; }
+    .br-map { display: block; width: min(100%, 620px); max-height: 600px; overflow: visible; }
     .map-states path { fill: #e7ebe4; stroke: #fffefa; stroke-width: 2.5; stroke-linejoin: round; vector-effect: non-scaling-stroke; cursor: pointer; transition: fill .25s ease, filter .16s ease; }
     .map-states path:hover, .map-states path:focus-visible { filter: brightness(.93); }
     .map-states path.is-selected { stroke: #253d35; stroke-width: 3; }
@@ -92,6 +92,21 @@
     .tally-bar span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--green); transition: width .3s ease; }
     .tally-meta { display: flex; justify-content: space-between; gap: 10px; margin-top: 7px; color: var(--muted); font-size: 10px; }
     .awaiting { margin: 14px 0 0; padding: 10px 11px; border-radius: 11px; color: #765b2f; background: #f8f0dc; font-size: 11px; line-height: 1.45; }
+    .history-panel { padding: 16px 22px 14px; border-bottom: 1px solid var(--line); }
+    .history-heading { display: flex; align-items: start; justify-content: space-between; gap: 10px; }
+    .history-heading h3 { margin: 0 0 4px; color: #343a38; font-size: 14px; font-weight: 750; letter-spacing: -.02em; }
+    .history-heading p { max-width: 390px; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
+    .history-badge { flex: 0 0 auto; padding: 5px 7px; border-radius: 99px; color: var(--green-dark); background: var(--mint); font-size: 9px; font-weight: 750; white-space: nowrap; }
+    .history-chart { min-height: 174px; margin-top: 8px; }
+    .history-chart svg { display: block; width: 100%; height: 174px; overflow: visible; }
+    .history-gridline { stroke: #e9ece6; stroke-width: 1; }
+    .history-axis-label { fill: #839087; font-size: 10px; font-family: inherit; }
+    .history-empty { display: grid; place-items: center; min-height: 174px; margin: 0; padding: 15px; border: 1px dashed #dfe5da; border-radius: 12px; color: #77827b; background: #fafbf8; font-size: 11px; line-height: 1.5; text-align: center; }
+    .history-legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .history-legend button { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; padding: 5px 7px; border: 1px solid #e4e8e1; border-radius: 8px; color: #55625b; background: #fff; font-size: 9px; font-weight: 700; }
+    .history-legend button[aria-pressed="false"] { color: #89928b; background: #f5f6f2; opacity: .72; }
+    .history-swatch { flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%; }
+    .history-legend-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .message { margin: 16px 22px 4px; padding: 14px; border: 1px solid #e7e9e1; border-radius: 13px; color: #617068; background: #f7f8f4; font-size: 12px; line-height: 1.5; }
     .candidate-list { display: flex; flex-direction: column; gap: 0; max-height: 700px; overflow: auto; padding: 2px 22px 16px; scrollbar-color: #cad5ca transparent; scrollbar-width: thin; }
     .candidate { display: grid; grid-template-columns: 50px minmax(0,1fr); align-items: start; gap: 12px; padding: 14px 0; border-bottom: 1px solid #edf0e9; }
@@ -124,8 +139,8 @@
       .grid { grid-template-columns: minmax(0,1fr); }
       .filters { grid-template-columns: repeat(2,minmax(0,1fr)); }
       .filter-hint { grid-column: 1 / -1; max-width: none; }
-      .map-wrap { min-height: 360px; }
-      .br-map { width: min(100%, 470px); }
+      .map-wrap { min-height: 470px; }
+      .br-map { width: min(100%, 560px); max-height: 560px; }
       .results-card { min-height: 450px; }
     }
     @media (max-width: 650px) {
@@ -145,11 +160,13 @@
       .map-card { padding: 17px 14px 15px; }
       .card-heading { flex-direction: column; gap: 13px; }
       .map-toggle { align-self: flex-start; }
-      .map-wrap { min-height: 300px; margin-top: 4px; }
-      .br-map { width: min(100%, 390px); }
+      .map-wrap { min-height: clamp(330px, 100vw, 440px); margin-top: 4px; }
+      .br-map { width: min(100%, 440px); max-height: min(440px, calc(100vw - 26px)); }
       .map-states path { stroke-width: 2; }
       .map-label { font-size: 8px; }
       .results-head { padding: 18px 15px 14px; }
+      .history-panel { padding: 14px 15px 12px; }
+      .history-chart, .history-chart svg, .history-empty { min-height: 160px; height: 160px; }
       .results-summary { gap: 6px; }
       .metric { padding: 9px 8px; }
       .metric span { font-size: 8px; }
@@ -248,6 +265,17 @@
             <div class="tally-meta"><span id="tallyLabel">Aguardando dados</span><span id="tallyPercent">—</span></div>
             <p class="awaiting" id="awaitingMessage" hidden></p>
           </div>
+          <section class="history-panel" aria-labelledby="presidentHistoryTitle">
+            <div class="history-heading">
+              <div>
+                <h3 id="presidentHistoryTitle">Evolução dos votos para presidente</h3>
+                <p>O TSE publica o total corrente, sem série histórica. Este navegador começa a guardar cada mudança observada.</p>
+              </div>
+              <span class="history-badge" id="historyCount">Histórico local</span>
+            </div>
+            <div class="history-chart" id="historyChart" aria-live="off"><p class="history-empty">Aguardando a primeira amostra dos resultados nacionais.</p></div>
+            <div class="history-legend" id="historyLegend" aria-label="Candidatos mostrados no gráfico"></div>
+          </section>
           <div id="resultMessage" class="message" hidden></div>
           <div class="candidate-list" id="candidateList" aria-live="polite"><div class="loading-sheen" style="height:58px; margin:12px 0"></div><div class="loading-sheen" style="height:58px; margin:12px 0"></div><div class="loading-sheen" style="height:58px; margin:12px 0"></div></div>
           <button id="moreCandidates" class="more-button" type="button" hidden>Mostrar mais candidaturas</button>
@@ -269,6 +297,8 @@
       const API = "https://resultados.tse.jus.br/oficial";
       const CONFIG_URL = `${API}/comum/config/ele-c.json`;
       const UPDATE_MS = 15000;
+      const HISTORY_MAX_POINTS = 1600;
+      const HISTORY_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
       const STATES = [
         ["AC","Acre"],["AL","Alagoas"],["AP","Amapá"],["AM","Amazonas"],["BA","Bahia"],["CE","Ceará"],["DF","Distrito Federal"],["ES","Espírito Santo"],["GO","Goiás"],["MA","Maranhão"],["MT","Mato Grosso"],["MS","Mato Grosso do Sul"],["MG","Minas Gerais"],["PA","Pará"],["PB","Paraíba"],["PR","Paraná"],["PE","Pernambuco"],["PI","Piauí"],["RJ","Rio de Janeiro"],["RN","Rio Grande do Norte"],["RS","Rio Grande do Sul"],["RO","Rondônia"],["RR","Roraima"],["SC","Santa Catarina"],["SP","São Paulo"],["SE","Sergipe"],["TO","Tocantins"]
       ].map(([uf,name]) => ({uf,name}));
@@ -299,6 +329,10 @@
       let refreshRequested = false;
       let unavailableUntil = new Map();
       let mapReady = false;
+      let presidentHistory = [];
+      let presidentHistoryKey = "";
+      let selectedHistoryIds = new Set();
+      let historyStorageError = false;
 
       function escapeHtml(value) {
         return String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]));
@@ -395,6 +429,134 @@
       function partyBadgeTextColor(party) {
         const codes = partyCode(party);
         return codes.includes("PT") || codes.includes("PL") ? "#fff" : "#20342e";
+      }
+      function historyKey(entry) {
+        return entry ? `voto-a-voto:presidente:${entry.pleito.c}:${entry.eleicao.cd}` : "";
+      }
+      function loadPresidentHistory(entry) {
+        const key = historyKey(entry);
+        if (key === presidentHistoryKey) return;
+        presidentHistoryKey = key;
+        presidentHistory = [];
+        selectedHistoryIds = new Set();
+        historyStorageError = false;
+        if (!key) { renderHistoryChart(); return; }
+        try {
+          const saved = JSON.parse(localStorage.getItem(key) || "[]");
+          const cutoff = Date.now() - HISTORY_MAX_AGE_MS;
+          presidentHistory = (Array.isArray(saved) ? saved : []).filter(point => point && Number.isFinite(Number(point.time)) && Number(point.time) >= cutoff && Array.isArray(point.candidates)).slice(-HISTORY_MAX_POINTS).map(point => ({
+            time:Number(point.time),
+            candidates:point.candidates.filter(candidate => candidate && candidate.id != null).map(candidate => ({
+              id:String(candidate.id),
+              name:String(candidate.name || "Candidatura"),
+              party:String(candidate.party || ""),
+              votes:parseIntSafe(candidate.votes)
+            }))
+          }));
+        } catch (error) {
+          historyStorageError = true;
+        }
+        renderHistoryChart();
+      }
+      function compactHistoryVotes(value) {
+        if (value >= 1000000) return `${(value/1000000).toLocaleString("pt-BR",{maximumFractionDigits:1})} mi`;
+        if (value >= 1000) return `${(value/1000).toLocaleString("pt-BR",{maximumFractionDigits:0})} mil`;
+        return formatNumber(value);
+      }
+      function formatHistoryTime(value) {
+        return new Intl.DateTimeFormat("pt-BR",{timeZone:"America/Sao_Paulo",hour:"2-digit",minute:"2-digit"}).format(new Date(value));
+      }
+      function historyCandidateList() {
+        const latest = presidentHistory[presidentHistory.length-1];
+        if (!latest) return [];
+        return latest.candidates.slice().sort((a,b) => b.votes-a.votes || a.name.localeCompare(b.name,"pt-BR"));
+      }
+      function renderHistoryChart() {
+        const chart = $("historyChart");
+        const legend = $("historyLegend");
+        if (!chart || !legend) return;
+        const candidatesById = new Map();
+        for (const point of presidentHistory) {
+          for (const candidate of point.candidates) candidatesById.set(candidate.id,candidate);
+        }
+        const latestCandidates = historyCandidateList();
+        const candidates = [...candidatesById.values()].sort((a,b) => (latestCandidates.find(row => row.id === b.id)?.votes || 0) - (latestCandidates.find(row => row.id === a.id)?.votes || 0) || a.name.localeCompare(b.name,"pt-BR"));
+        if (!selectedHistoryIds.size && latestCandidates.length) selectedHistoryIds = new Set(latestCandidates.slice(0,5).map(candidate => candidate.id));
+        for (const id of [...selectedHistoryIds]) if (!candidatesById.has(id)) selectedHistoryIds.delete(id);
+        if (!selectedHistoryIds.size && latestCandidates.length) selectedHistoryIds = new Set(latestCandidates.slice(0,5).map(candidate => candidate.id));
+
+        $("historyCount").textContent = historyStorageError ? "Histórico indisponível" : `${formatNumber(presidentHistory.length)} ${presidentHistory.length === 1 ? "ponto" : "pontos"} locais`;
+        legend.innerHTML = candidates.map(candidate => {
+          const color = candidateColor(candidate.id,candidate.party);
+          const active = selectedHistoryIds.has(candidate.id);
+          return `<button type="button" data-history-id="${escapeHtml(candidate.id)}" aria-pressed="${active}" title="${escapeHtml(candidate.name)} · ${escapeHtml(candidate.party || "Candidatura")}"><span class="history-swatch" style="background:${color}"></span><span class="history-legend-label">${escapeHtml(prettyName(candidate.name))}</span></button>`;
+        }).join("");
+
+        if (!presidentHistory.length) {
+          chart.innerHTML = `<p class="history-empty">${historyStorageError ? "Não consegui salvar o histórico neste navegador." : "Aguardando a primeira amostra dos resultados nacionais."}</p>`;
+          return;
+        }
+        if (presidentHistory.length < 2) {
+          const started = formatHistoryTime(presidentHistory[0].time);
+          chart.innerHTML = `<p class="history-empty">Primeiro ponto salvo às ${started}. A curva aparece assim que os votos mudarem e uma nova amostra for registrada.</p>`;
+          return;
+        }
+        const activeCandidates = candidates.filter(candidate => selectedHistoryIds.has(candidate.id));
+        if (!activeCandidates.length) {
+          chart.innerHTML = `<p class="history-empty">Selecione ao menos uma candidatura para exibir a curva.</p>`;
+          return;
+        }
+
+        const width = 640, height = 220, left = 58, right = 624, top = 15, bottom = 177;
+        const plotWidth = right-left, plotHeight = bottom-top;
+        const firstTime = presidentHistory[0].time;
+        const lastTime = presidentHistory[presidentHistory.length-1].time;
+        const xAt = time => firstTime === lastTime ? left+plotWidth/2 : left+(time-firstTime)/(lastTime-firstTime)*plotWidth;
+        let maximum = 0;
+        for (const point of presidentHistory) for (const candidate of activeCandidates) {
+          maximum = Math.max(maximum,point.candidates.find(row => row.id === candidate.id)?.votes || 0);
+        }
+        const rawStep = Math.max(maximum/4,1);
+        const magnitude = 10 ** Math.floor(Math.log10(rawStep));
+        const normalizedStep = rawStep/magnitude;
+        const stepFactor = normalizedStep <= 1 ? 1 : (normalizedStep <= 2 ? 2 : (normalizedStep <= 5 ? 5 : 10));
+        const step = stepFactor*magnitude;
+        const scaleMax = maximum ? Math.ceil(maximum/step)*step : 1;
+        const yAt = votes => bottom-(votes/scaleMax)*plotHeight;
+        const grid = Array.from({length:5},(_,index) => {
+          const value = scaleMax*index/4;
+          const y = yAt(value);
+          return `<line class="history-gridline" x1="${left}" y1="${y}" x2="${right}" y2="${y}"/><text class="history-axis-label" x="${left-9}" y="${y+3}" text-anchor="end">${escapeHtml(compactHistoryVotes(value))}</text>`;
+        }).join("");
+        const lines = activeCandidates.map(candidate => {
+          const color = candidateColor(candidate.id,candidate.party);
+          const points = presidentHistory.map(point => ({x:xAt(point.time),y:yAt(point.candidates.find(row => row.id === candidate.id)?.votes || 0)}));
+          const path = points.map((point,index) => `${index ? "L" : "M"}${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(" ");
+          const lastPoint = points[points.length-1];
+          const latestVotes = presidentHistory[presidentHistory.length-1].candidates.find(row => row.id === candidate.id)?.votes || 0;
+          return `<path d="${path}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><title>${escapeHtml(prettyName(candidate.name))}: ${formatNumber(latestVotes)} votos</title></path><circle cx="${lastPoint.x.toFixed(1)}" cy="${lastPoint.y.toFixed(1)}" r="3.5" fill="${color}"/>`;
+        }).join("");
+        const middleTime = firstTime+(lastTime-firstTime)/2;
+        const xLabels = `<text class="history-axis-label" x="${left}" y="${height-8}" text-anchor="start">${formatHistoryTime(firstTime)}</text><text class="history-axis-label" x="${xAt(middleTime)}" y="${height-8}" text-anchor="middle">${formatHistoryTime(middleTime)}</text><text class="history-axis-label" x="${right}" y="${height-8}" text-anchor="end">${formatHistoryTime(lastTime)}</text>`;
+        chart.innerHTML = `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" role="img" aria-label="Evolução dos votos presidenciais em ${presidentHistory.length} amostras locais"><title>Votos acumulados ao longo do tempo</title>${grid}${lines}${xLabels}</svg>`;
+      }
+      function recordPresidentSnapshot(data) {
+        const rows = findCandidates(data,"1");
+        if (!rows.length || !presidentHistoryKey) return;
+        const candidates = rows.map(row => ({id:row.id,name:row.name,party:row.partyAbbr || row.party,votes:row.votes})).sort((a,b) => a.id.localeCompare(b.id));
+        const signature = JSON.stringify(candidates);
+        const previous = presidentHistory[presidentHistory.length-1];
+        if (previous && JSON.stringify(previous.candidates.slice().sort((a,b) => a.id.localeCompare(b.id))) === signature) return;
+        const now = Date.now();
+        presidentHistory = [...presidentHistory.filter(point => point.time >= now-HISTORY_MAX_AGE_MS),{time:now,candidates}].slice(-HISTORY_MAX_POINTS);
+        if (!selectedHistoryIds.size) selectedHistoryIds = new Set(rows.slice().sort((a,b) => b.votes-a.votes).slice(0,5).map(row => row.id));
+        try {
+          localStorage.setItem(presidentHistoryKey,JSON.stringify(presidentHistory));
+          historyStorageError = false;
+        } catch (error) {
+          historyStorageError = true;
+        }
+        renderHistoryChart();
       }
       function stateName(uf) { return STATES.find(s => s.uf === uf)?.name || uf; }
       function selectedCargo() { return CARGO_DEFS.find(c => c.id === cargoSelect.value) || CARGO_DEFS[0]; }
@@ -762,10 +924,13 @@
           const result = await requestOnce(url);
           return [state.uf,result.data || (result.error ? mapResults.get(state.uf) || null : null)];
         }) : [];
-        const [mainResult,mapRows] = await Promise.all([mainPromise,Promise.all(mapJobs)]);
+        const historyRef = currentCargoEntry("1");
+        const historyPromise = historyRef ? requestOnce(buildResultUrl(historyRef,"1","br")) : Promise.resolve({error:new Error("resultado presidencial indisponível")});
+        const [mainResult,mapRows,historyResult] = await Promise.all([mainPromise,Promise.all(mapJobs),historyPromise]);
+        if (historyResult.data) recordPresidentSnapshot(historyResult.data);
         const selectionStillCurrent = selectedCargo().id === cargo.id && stateSelect.value === selectedUf && citySelect.value === cityCode;
         if (mapRef && mapMode === mapCargo) mapResults = new Map(mapRows);
-        const hadAnyData = Boolean(mainResult.data) || mapRows.some(row=>row[1]);
+        const hadAnyData = Boolean(mainResult.data || historyResult.data) || mapRows.some(row=>row[1]);
         if (selectionStillCurrent) {
           if (mainResult.skip) {
             renderMain(null,false,false);
@@ -819,6 +984,8 @@
           }
           populateCargoOptions();
           if (!cargoEntries.has("1")) throw new Error("eleição presidencial não encontrada na configuração do TSE");
+          setMapMode("1");
+          loadPresidentHistory(currentCargoEntry("1"));
           await loadMapMarkup();
           await refreshNow();
         } catch (error) {
@@ -855,6 +1022,17 @@
         refreshNow();
       });
       citySelect.addEventListener("change",() => refreshNow());
+      $("historyLegend").addEventListener("click",event => {
+        const button = event.target.closest("[data-history-id]");
+        if (!button) return;
+        const id = button.dataset.historyId;
+        if (selectedHistoryIds.has(id)) {
+          if (selectedHistoryIds.size === 1) return;
+          selectedHistoryIds.delete(id);
+        }
+        else selectedHistoryIds.add(id);
+        renderHistoryChart();
+      });
       $("moreCandidates").addEventListener("click",() => { visibleCount += 20; renderCandidates(); });
       $("refreshNow").addEventListener("click",() => { unavailableUntil.clear(); refreshNow(); });
       document.querySelectorAll("[data-map-mode]").forEach(button => button.addEventListener("click",() => {
