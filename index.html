@@ -93,20 +93,25 @@
     .tally-meta { display: flex; justify-content: space-between; gap: 10px; margin-top: 7px; color: var(--muted); font-size: 10px; }
     .awaiting { margin: 14px 0 0; padding: 10px 11px; border-radius: 11px; color: #765b2f; background: #f8f0dc; font-size: 11px; line-height: 1.45; }
     .message { margin: 16px 22px 4px; padding: 14px; border: 1px solid #e7e9e1; border-radius: 13px; color: #617068; background: #f7f8f4; font-size: 12px; line-height: 1.5; }
-    .candidate-list { display: flex; flex-direction: column; gap: 0; max-height: 640px; overflow: auto; padding: 3px 22px 16px; scrollbar-color: #cad5ca transparent; scrollbar-width: thin; }
-    .candidate { position: relative; display: grid; grid-template-columns: 30px minmax(0,1fr) auto; align-items: center; gap: 10px; min-height: 68px; padding: 11px 0 12px; border-bottom: 1px solid #edf0e9; }
+    .candidate-list { display: flex; flex-direction: column; gap: 0; max-height: 700px; overflow: auto; padding: 2px 22px 16px; scrollbar-color: #cad5ca transparent; scrollbar-width: thin; }
+    .candidate { display: grid; grid-template-columns: 50px minmax(0,1fr); align-items: start; gap: 12px; padding: 14px 0; border-bottom: 1px solid #edf0e9; }
     .candidate:last-child { border-bottom: 0; }
-    .rank { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 9px; color: #718078; background: #f0f2ed; font-size: 11px; font-weight: 800; }
-    .candidate:first-child .rank { color: #7a5b20; background: #f7efd7; }
-    .candidate-info { min-width: 0; }
-    .candidate-name { display: block; overflow: hidden; color: var(--ink); font-size: 12px; font-weight: 760; text-overflow: ellipsis; white-space: nowrap; }
-    .candidate-party { display: block; overflow: hidden; margin-top: 4px; color: var(--muted); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
-    .candidate-votes { text-align: right; }
-    .candidate-votes strong { display: block; font-size: 12px; font-variant-numeric: tabular-nums; }
-    .candidate-votes span { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; }
-    .candidate-progress { position: absolute; right: 0; bottom: 3px; left: 40px; height: 2px; overflow: hidden; border-radius: 9px; background: #f0f1ec; }
-    .candidate-progress span { display: block; height: 100%; min-width: 0; border-radius: inherit; opacity: .8; }
-    .candidate-status { display: inline-block; margin-top: 4px; padding: 3px 6px; border-radius: 7px; color: var(--green-dark); background: #e4f0e7; font-size: 9px; font-weight: 800; }
+    .candidate-avatar { display: grid; place-items: center; width: 48px; height: 48px; overflow: hidden; border: 2px solid #edf0e9; border-radius: 50%; color: #53645c; background: #f2f4ef; font-size: 12px; font-weight: 800; }
+    .candidate-avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .candidate-avatar-fallback[hidden] { display: none; }
+    .candidate-content { min-width: 0; }
+    .candidate-topline { display: flex; align-items: center; gap: 7px; min-width: 0; }
+    .candidate-name { flex: 1 1 auto; min-width: 0; overflow: hidden; color: #343a38; font-size: 14px; font-weight: 550; text-overflow: ellipsis; white-space: nowrap; }
+    .candidate-number { flex: 0 0 auto; color: #545b58; font-size: 12px; font-weight: 750; font-variant-numeric: tabular-nums; }
+    .candidate-party-badge { flex: 0 0 auto; margin-left: auto; padding: 3px 6px; border-radius: 5px; font-size: 9px; font-weight: 850; line-height: 1.15; }
+    .candidate-state-tag { flex: 0 0 auto; padding: 3px 6px; border-radius: 6px; color: #53645c; background: #f0f2ed; font-size: 9px; font-weight: 800; }
+    .candidate-progress { height: 3px; margin: 9px 0 6px; overflow: hidden; border-radius: 9px; background: #e9ece8; }
+    .candidate-progress span { display: block; height: 100%; min-width: 0; border-radius: inherit; }
+    .candidate-bottomline { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+    .candidate-percent { color: #343a38; font-size: 21px; font-weight: 650; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+    .candidate-percent small { margin-left: 2px; font-size: 12px; font-weight: 600; }
+    .candidate-votes { color: #646b68; font-size: 11px; font-variant-numeric: tabular-nums; text-align: right; }
+    .candidate-status { display: inline-block; margin-top: 5px; padding: 3px 6px; border-radius: 7px; color: var(--green-dark); background: #e4f0e7; font-size: 9px; font-weight: 800; }
     .more-button { align-self: center; margin: 0 0 18px; padding: 8px 12px; border: 1px solid #dfe5da; border-radius: 10px; color: var(--green-dark); background: white; font-size: 11px; font-weight: 750; }
     .more-button:hover { background: #f6faf5; }
     .updated-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin: 17px 2px 0; color: #87918a; font-size: 10px; }
@@ -150,7 +155,10 @@
       .metric span { font-size: 8px; }
       .metric strong { font-size: 13px; }
       .candidate-list { padding-right: 15px; padding-left: 15px; }
-      .candidate { gap: 8px; }
+      .candidate { grid-template-columns: 44px minmax(0,1fr); gap: 9px; padding: 12px 0; }
+      .candidate-avatar { width: 42px; height: 42px; }
+      .candidate-name { font-size: 13px; }
+      .candidate-percent { font-size: 19px; }
       .footer { align-items: start; flex-direction: column; gap: 8px; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -206,11 +214,11 @@
           <div class="card-heading">
             <div>
               <h2 id="mapTitle">Quem lidera em cada estado</h2>
-              <p class="card-subtitle" id="mapSubtitle">Liderança parcial para governador por unidade da federação.</p>
+              <p class="card-subtitle" id="mapSubtitle">Liderança parcial para presidente por unidade da federação.</p>
             </div>
             <div class="map-toggle" role="group" aria-label="Cargo exibido no mapa">
-              <button type="button" data-map-mode="3" aria-pressed="true">Governadores</button>
-              <button type="button" data-map-mode="1" aria-pressed="false">Presidente</button>
+              <button type="button" data-map-mode="3" aria-pressed="false">Governadores</button>
+              <button type="button" data-map-mode="1" aria-pressed="true">Presidente</button>
             </div>
           </div>
           <div class="map-wrap" id="mapWrap">
@@ -218,7 +226,7 @@
             <div class="map-tooltip" id="mapTooltip" hidden></div>
           </div>
           <div class="map-legend" id="mapLegend" aria-live="polite"><span class="legend-item">Buscando a apuração por estado…</span></div>
-          <p class="map-note">As cores só distinguem lideranças no mapa. “Liderando” indica a maior votação parcial; “eleito” aparece apenas quando consta nos dados oficiais.</p>
+          <p class="map-note">Vermelho indica liderança do PT e azul do PL; outros partidos usam cores de apoio. “Eleito” aparece apenas quando consta nos dados oficiais.</p>
         </section>
 
         <section class="card results-card" aria-labelledby="resultTitle">
@@ -232,9 +240,9 @@
               <span class="scope-badge" id="scopeBadge">TSE</span>
             </div>
             <div class="results-summary" aria-label="Resumo da apuração">
-              <div class="metric"><span>Seções apuradas</span><strong id="sectionsMetric">—</strong></div>
-              <div class="metric"><span>Votos válidos</span><strong id="validMetric">—</strong></div>
-              <div class="metric"><span>Candidaturas</span><strong id="candidatesMetric">—</strong></div>
+              <div class="metric"><span id="sectionsMetricLabel">Seções apuradas</span><strong id="sectionsMetric">—</strong></div>
+              <div class="metric"><span id="validMetricLabel">Votos válidos</span><strong id="validMetric">—</strong></div>
+              <div class="metric"><span id="candidatesMetricLabel">Candidaturas</span><strong id="candidatesMetric">—</strong></div>
             </div>
             <div class="tally-bar" aria-label="Percentual de seções apuradas"><span id="tallyProgress"></span></div>
             <div class="tally-meta"><span id="tallyLabel">Aguardando dados</span><span id="tallyPercent">—</span></div>
@@ -280,7 +288,7 @@
       const citySelect = $("citySelect");
       let config = null;
       let cargoEntries = new Map();
-      let mapMode = "3";
+      let mapMode = "1";
       let mapResults = new Map();
       let allCandidates = [];
       let visibleCount = 14;
@@ -342,7 +350,12 @@
         try { return {data:await response.json()}; }
         catch (error) { return {error}; }
       }
-      function findCandidates(data, cargoId) {
+      function candidatePhotoBase(entry, cargoId, uf) {
+        if (!entry) return "";
+        const scope = String(cargoId) === "1" ? "br" : String(uf || "").toLowerCase();
+        return scope ? `${API}/${entry.pleito.c}/${entry.eleicao.cd}/fotos/${scope}` : "";
+      }
+      function findCandidates(data, cargoId, photoBase="") {
         const cargo = (data?.carg || []).find(row => String(row.cd) === String(cargoId));
         if (!cargo) return [];
         const rows = [];
@@ -354,6 +367,9 @@
                 name:candidate.nmu || candidate.nm || "Candidatura",
                 fullName:candidate.nm || candidate.nmu || "Candidatura",
                 party:party.sg || party.nm || group.nm || "",
+                partyAbbr:party.sg || "",
+                number:String(candidate.n || ""),
+                photo:candidate.sqcand && photoBase ? `${photoBase}/${encodeURIComponent(candidate.sqcand)}.jpeg` : "",
                 votes:parseIntSafe(candidate.vap),
                 percent:parsePercent(candidate.pvap),
                 elected:String(candidate.e || "").toLowerCase() === "s",
@@ -365,10 +381,20 @@
         }
         return rows;
       }
-      function candidateColor(id) {
+      function partyCode(party) {
+        return String(party || "").toUpperCase().match(/[A-Z0-9]+/g) || [];
+      }
+      function candidateColor(id, party="") {
+        const codes = partyCode(party);
+        if (codes.includes("PT")) return "#df1238";
+        if (codes.includes("PL")) return "#3039b4";
         let hash = 0;
         for (const char of String(id)) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
         return COLOR_PALETTE[hash % COLOR_PALETTE.length];
+      }
+      function partyBadgeTextColor(party) {
+        const codes = partyCode(party);
+        return codes.includes("PT") || codes.includes("PL") ? "#fff" : "#20342e";
       }
       function stateName(uf) { return STATES.find(s => s.uf === uf)?.name || uf; }
       function selectedCargo() { return CARGO_DEFS.find(c => c.id === cargoSelect.value) || CARGO_DEFS[0]; }
@@ -387,6 +413,16 @@
         const node = $("resultMessage");
         node.textContent = message || "";
         node.hidden = !visible;
+      }
+      function setMetricLabels(overview=false) {
+        $("sectionsMetricLabel").textContent = overview ? "UFs com dados" : "Seções apuradas";
+        $("validMetricLabel").textContent = overview ? "UFs com votos" : "Votos válidos";
+        $("candidatesMetricLabel").textContent = overview ? "Lideranças" : "Candidaturas";
+        $("tallyProgress").parentElement.setAttribute("aria-label",overview ? "Percentual de UFs com votos registrados" : "Percentual de seções apuradas");
+      }
+      function initials(value) {
+        const words = String(value || "?").trim().split(/\s+/).filter(Boolean);
+        return (words.length > 1 ? `${words[0][0]}${words[words.length-1][0]}` : words[0].slice(0,2)).toLocaleUpperCase("pt-BR");
       }
 
       function populateCargoOptions() {
@@ -436,6 +472,35 @@
         const percent = parsePercent(sections.pst);
         return {done,total,percent,valid:parseIntSafe(votes.vvc),hasVotes:parseIntSafe(votes.tv) > 0};
       }
+      function renderGovernorOverview() {
+        const eligibleStates = STATES.filter(state => state.uf !== "DF");
+        const entry = currentCargoEntry("3");
+        const statesWithData = eligibleStates.filter(state => mapResults.has(state.uf) && mapResults.get(state.uf));
+        const leaders = [];
+        for (const state of eligibleStates) {
+          const data = mapResults.get(state.uf);
+          const rows = findCandidates(data, "3", candidatePhotoBase(entry,"3",state.uf));
+          rows.sort((a,b) => b.votes-a.votes || a.sequence-b.sequence);
+          if (rows.length && rows[0].votes > 0) leaders.push({...rows[0],stateLabel:state.uf,stateTitle:state.name});
+        }
+        leaders.sort((a,b) => a.stateLabel.localeCompare(b.stateLabel,"pt-BR"));
+        allCandidates = leaders;
+        visibleCount = 14;
+        $("resultTitle").textContent = "Governadores";
+        $("resultScope").textContent = "Lideranças parciais por UF · percentuais calculados dentro de cada estado";
+        $("scopeBadge").textContent = "Brasil";
+        setMetricLabels(true);
+        $("sectionsMetric").textContent = `${formatNumber(statesWithData.length)} / ${eligibleStates.length}`;
+        $("validMetric").textContent = formatNumber(leaders.length);
+        $("candidatesMetric").textContent = formatNumber(leaders.length);
+        const percent = eligibleStates.length ? leaders.length / eligibleStates.length * 100 : 0;
+        $("tallyLabel").textContent = "UFs com votos registrados";
+        $("tallyPercent").textContent = `${percent.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})}%`;
+        $("tallyProgress").style.width = `${percent}%`;
+        $("awaitingMessage").hidden = leaders.length > 0;
+        if (!leaders.length) $("awaitingMessage").textContent = "Aguardando votos do TSE para as disputas de governador em cada estado.";
+        renderCandidates();
+      }
       function renderMain(data, unavailable=false, error=false) {
         const cargo = selectedCargo();
         const uf = stateSelect.value;
@@ -451,6 +516,7 @@
         setResultMessage("", false);
         allCandidates = [];
         visibleCount = 14;
+        setMetricLabels();
         $("candidatesMetric").textContent = "—";
         $("sectionsMetric").textContent = "—";
         $("validMetric").textContent = "—";
@@ -474,6 +540,10 @@
           setResultMessage("Conselheiro Distrital é disputado em Fernando de Noronha (PE). O recorte dessa localidade foi selecionado automaticamente.");
           return;
         }
+        if (cargo.id === "3" && !uf) {
+          renderGovernorOverview();
+          return;
+        }
         if (!cargo.nationwide && !uf) {
           setResultMessage("Esta disputa acontece por estado. Escolha uma UF acima ou toque nela no mapa para ver candidaturas e votos.");
           return;
@@ -488,7 +558,7 @@
         }
 
         const stats = getSectionStats(data);
-        const rows = findCandidates(data, cargo.id);
+        const rows = findCandidates(data, cargo.id, candidatePhotoBase(selectedRef(),cargo.id,uf));
         const anyVotes = rows.some(row => row.votes > 0);
         allCandidates = rows.slice().sort((a,b) => b.votes-a.votes || a.sequence-b.sequence || a.name.localeCompare(b.name,"pt-BR"));
         const percent = Math.max(0,Math.min(stats.percent,100));
@@ -512,14 +582,20 @@
           return;
         }
         container.innerHTML = subset.map((candidate,index) => {
-          const color = candidateColor(candidate.id);
+          const color = candidateColor(candidate.id,candidate.partyAbbr || candidate.party);
           const bar = Math.max(0,Math.min(candidate.percent,100));
           const status = candidate.elected ? `<span class="candidate-status">Eleito segundo o TSE</span>` : (candidate.status ? `<span class="candidate-status">${escapeHtml(candidate.status)}</span>` : "");
-          return `<article class="candidate" aria-label="${index+1}º, ${escapeHtml(prettyName(candidate.name))}, ${formatNumber(candidate.votes)} votos, ${candidate.percent.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})}%">
-            <span class="rank">${index+1}</span>
-            <span class="candidate-info"><span class="candidate-name" title="${escapeHtml(prettyName(candidate.fullName))}">${escapeHtml(prettyName(candidate.name))}</span><span class="candidate-party">${escapeHtml(candidate.party || "Candidatura")}${status}</span></span>
-            <span class="candidate-votes"><strong>${formatNumber(candidate.votes)}</strong><span>${candidate.percent.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})}%</span></span>
-            <span class="candidate-progress" aria-hidden="true"><span style="width:${bar}%;background:${color}"></span></span>
+          const partyLabel = candidate.partyAbbr || candidate.party || "Candidatura";
+          const number = candidate.number ? `<span class="candidate-number">· ${escapeHtml(candidate.number)}</span>` : "";
+          const stateTag = candidate.stateLabel ? `<span class="candidate-state-tag" title="${escapeHtml(candidate.stateTitle || candidate.stateLabel)}">${escapeHtml(candidate.stateLabel)}</span>` : "";
+          const avatar = candidate.photo ? `<img src="${escapeHtml(candidate.photo)}" alt="" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">` : "";
+          const photoFallbackHidden = candidate.photo ? " hidden" : "";
+          const partyColorStyle = `background:${color};color:${partyBadgeTextColor(candidate.partyAbbr || candidate.party)}`;
+          return `<article class="candidate" aria-label="${index+1}º, ${escapeHtml(prettyName(candidate.name))}${candidate.number ? `, número ${escapeHtml(candidate.number)}` : ""}, ${escapeHtml(partyLabel)}, ${formatNumber(candidate.votes)} votos, ${candidate.percent.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})}%">
+            <span class="candidate-avatar">${avatar}<span class="candidate-avatar-fallback"${photoFallbackHidden}>${escapeHtml(initials(candidate.name))}</span></span>
+            <span class="candidate-content"><span class="candidate-topline"><span class="candidate-name" title="${escapeHtml(prettyName(candidate.fullName))}">${escapeHtml(prettyName(candidate.name))}</span>${number}${stateTag}<span class="candidate-party-badge" style="${partyColorStyle}" title="${escapeHtml(candidate.party || partyLabel)}">${escapeHtml(partyLabel)}</span></span>
+              <span class="candidate-progress" aria-hidden="true"><span style="width:${bar}%;background:${color}"></span></span>
+              <span class="candidate-bottomline"><strong class="candidate-percent">${candidate.percent.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})}<small>%</small></strong><span class="candidate-votes">${formatNumber(candidate.votes)} votos</span></span>${status}</span>
           </article>`;
         }).join("");
         const more = $("moreCandidates");
@@ -571,6 +647,15 @@
         const data = mapResults.get(uf);
         return {data,leader:mapLeader(data)};
       }
+      function setMapMode(mode) {
+        if (mode !== "1" && mode !== "3") return;
+        const changed = mapMode !== mode;
+        mapMode = mode;
+        cargoSelect.value = mode;
+        document.querySelectorAll("[data-map-mode]").forEach(button => button.setAttribute("aria-pressed",String(button.dataset.mapMode === mode)));
+        if (changed) mapResults = new Map();
+        renderMap();
+      }
       function renderMap() {
         if (!mapReady) return;
         const modeName = mapMode === "3" ? "governador" : "presidente";
@@ -587,9 +672,13 @@
           path.classList.toggle("is-selected",chosen);
           if (label) label.classList.toggle("is-selected",chosen);
           if (leader) {
-            const color = candidateColor(leader.id);
+            const party = leader.partyAbbr || leader.party;
+            const color = candidateColor(leader.id,party);
             path.style.fill = color;
-            leaders.set(leader.id,{candidate:leader,count:(leaders.get(leader.id)?.count || 0)+1,color});
+            const codes = partyCode(party);
+            const legendKey = codes.includes("PT") ? "party:PT" : (codes.includes("PL") ? "party:PL" : leader.id);
+            const existing = leaders.get(legendKey);
+            leaders.set(legendKey,{candidate:leader,label:legendKey === "party:PT" ? "PT" : (legendKey === "party:PL" ? "PL" : prettyName(leader.name)),count:(existing?.count || 0)+1,color});
             counted++;
             path.setAttribute("aria-label",`${state.name}: ${prettyName(leader.name)} lidera com ${formatNumber(leader.votes)} votos`);
           } else {
@@ -603,7 +692,7 @@
         if (!ordered.length) {
           legend.innerHTML = `<span class="legend-item"><span class="legend-dot" style="background:#e7ebe4"></span>${mapMode === "3" ? "Aguardando votos para governador" : "Aguardando votos para presidente"}</span>`;
         } else {
-          legend.innerHTML = ordered.slice(0,7).map(entry=>`<span class="legend-item"><span class="legend-dot" style="background:${entry.color}"></span>${escapeHtml(prettyName(entry.candidate.name))} · ${entry.count} ${entry.count===1?"UF":"UFs"}</span>`).join("") + (ordered.length > 7 ? `<span class="legend-item">+ ${ordered.length-7} candidaturas</span>` : "");
+          legend.innerHTML = ordered.slice(0,7).map(entry=>`<span class="legend-item"><span class="legend-dot" style="background:${entry.color}"></span>${escapeHtml(entry.label)} · ${entry.count} ${entry.count===1?"UF":"UFs"}</span>`).join("") + (ordered.length > 7 ? `<span class="legend-item">+ ${ordered.length-7} candidaturas</span>` : "");
         }
         $("mapLegend").setAttribute("aria-label",counted ? `${counted} estados com liderança calculada` : "Sem votos computados no mapa");
       }
@@ -674,14 +763,17 @@
           return [state.uf,result.data || (result.error ? mapResults.get(state.uf) || null : null)];
         }) : [];
         const [mainResult,mapRows] = await Promise.all([mainPromise,Promise.all(mapJobs)]);
-        if (mapRef) mapResults = new Map(mapRows);
+        const selectionStillCurrent = selectedCargo().id === cargo.id && stateSelect.value === selectedUf && citySelect.value === cityCode;
+        if (mapRef && mapMode === mapCargo) mapResults = new Map(mapRows);
         const hadAnyData = Boolean(mainResult.data) || mapRows.some(row=>row[1]);
-        if (mainResult.skip) {
-          renderMain(null,false,false);
-        } else if (mainResult.unavailable) {
-          renderMain(null,true,false);
-        } else {
-          renderMain(mainResult.data || null,false,Boolean(mainResult.error));
+        if (selectionStillCurrent) {
+          if (mainResult.skip) {
+            renderMain(null,false,false);
+          } else if (mainResult.unavailable) {
+            renderMain(null,true,false);
+          } else {
+            renderMain(mainResult.data || null,false,Boolean(mainResult.error));
+          }
         }
         renderMap();
         const now = new Date();
@@ -740,6 +832,7 @@
       }
 
       cargoSelect.addEventListener("change",async () => {
+        if (selectedCargo().id === "1" || selectedCargo().id === "3") setMapMode(selectedCargo().id);
         if (selectedCargo().id === "25") {
           stateSelect.value = "PE";
           await loadMunicipalities();
@@ -765,10 +858,8 @@
       $("moreCandidates").addEventListener("click",() => { visibleCount += 20; renderCandidates(); });
       $("refreshNow").addEventListener("click",() => { unavailableUntil.clear(); refreshNow(); });
       document.querySelectorAll("[data-map-mode]").forEach(button => button.addEventListener("click",() => {
-        mapMode = button.dataset.mapMode;
-        document.querySelectorAll("[data-map-mode]").forEach(node=>node.setAttribute("aria-pressed",String(node===button)));
-        mapResults = new Map();
-        renderMap();
+        if (mapMode === button.dataset.mapMode && selectedCargo().id === button.dataset.mapMode) return;
+        setMapMode(button.dataset.mapMode);
         refreshNow();
       }));
       initialize();
