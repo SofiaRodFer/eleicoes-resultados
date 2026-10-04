@@ -97,11 +97,20 @@
     .history-heading h3 { margin: 0 0 4px; color: #343a38; font-size: 14px; font-weight: 750; letter-spacing: -.02em; }
     .history-heading p { max-width: 390px; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
     .history-badge { flex: 0 0 auto; padding: 5px 7px; border-radius: 99px; color: var(--green-dark); background: var(--mint); font-size: 9px; font-weight: 750; white-space: nowrap; }
-    .history-chart { min-height: 174px; margin-top: 8px; }
-    .history-chart svg { display: block; width: 100%; height: 174px; overflow: visible; }
+    .history-chart { position: relative; min-height: 250px; margin-top: 10px; }
+    .history-chart svg { display: block; width: 100%; height: 250px; overflow: visible; touch-action: pan-y; }
     .history-gridline { stroke: #e9ece6; stroke-width: 1; }
     .history-axis-label { fill: #839087; font-size: 10px; font-family: inherit; }
-    .history-empty { display: grid; place-items: center; min-height: 174px; margin: 0; padding: 15px; border: 1px dashed #dfe5da; border-radius: 12px; color: #77827b; background: #fafbf8; font-size: 11px; line-height: 1.5; text-align: center; }
+    .history-empty { display: grid; place-items: center; min-height: 250px; margin: 0; padding: 15px; border: 1px dashed #dfe5da; border-radius: 12px; color: #77827b; background: #fafbf8; font-size: 11px; line-height: 1.5; text-align: center; }
+    .history-focus-line { stroke: #8d9990; stroke-width: 1; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
+    .history-focus-dot { stroke: #fffefa; stroke-width: 2; vector-effect: non-scaling-stroke; }
+    .history-tooltip { position: absolute; z-index: 4; min-width: 176px; max-width: min(270px, calc(100% - 16px)); padding: 9px 11px; border: 1px solid #e3e8df; border-radius: 11px; color: var(--ink); background: #fffefa; box-shadow: 0 8px 22px rgba(31,48,40,.15); font-size: 10px; pointer-events: none; }
+    .history-tooltip[hidden] { display: none; }
+    .history-tooltip-time { display: block; margin-bottom: 6px; color: var(--muted); font-size: 9px; font-weight: 750; }
+    .history-tooltip-row { display: flex; align-items: center; gap: 7px; margin-top: 4px; }
+    .history-tooltip-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .history-tooltip-swatch { flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%; }
+    .history-tooltip-votes { flex: 0 0 auto; font-variant-numeric: tabular-nums; font-weight: 750; }
     .history-legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
     .history-legend button { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; padding: 5px 7px; border: 1px solid #e4e8e1; border-radius: 8px; color: #55625b; background: #fff; font-size: 9px; font-weight: 700; }
     .history-legend button[aria-pressed="false"] { color: #89928b; background: #f5f6f2; opacity: .72; }
@@ -166,7 +175,8 @@
       .map-label { font-size: 8px; }
       .results-head { padding: 18px 15px 14px; }
       .history-panel { margin-top: 12px; padding: 14px 0 0; }
-      .history-chart, .history-chart svg, .history-empty { min-height: 160px; height: 160px; }
+      .history-chart { min-height: 216px; }
+      .history-chart svg, .history-empty { min-height: 216px; height: 216px; }
       .results-summary { gap: 6px; }
       .metric { padding: 9px 8px; }
       .metric span { font-size: 8px; }
@@ -463,8 +473,8 @@
         if (value >= 1000) return `${(value/1000).toLocaleString("pt-BR",{maximumFractionDigits:0})} mil`;
         return formatNumber(value);
       }
-      function formatHistoryTime(value) {
-        return new Intl.DateTimeFormat("pt-BR",{timeZone:"America/Sao_Paulo",hour:"2-digit",minute:"2-digit"}).format(new Date(value));
+      function formatHistoryTime(value, seconds=false) {
+        return new Intl.DateTimeFormat("pt-BR",{timeZone:"America/Sao_Paulo",hour:"2-digit",minute:"2-digit",...(seconds ? {second:"2-digit"} : {})}).format(new Date(value));
       }
       function historyCandidateList() {
         const latest = presidentHistory[presidentHistory.length-1];
@@ -507,7 +517,7 @@
           return;
         }
 
-        const width = 640, height = 220, left = 58, right = 624, top = 15, bottom = 177;
+        const width = 640, height = 300, left = 58, right = 624, top = 24, bottom = 240;
         const plotWidth = right-left, plotHeight = bottom-top;
         const firstTime = presidentHistory[0].time;
         const lastTime = presidentHistory[presidentHistory.length-1].time;
@@ -537,8 +547,51 @@
           return `<path d="${path}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><title>${escapeHtml(prettyName(candidate.name))}: ${formatNumber(latestVotes)} votos</title></path><circle cx="${lastPoint.x.toFixed(1)}" cy="${lastPoint.y.toFixed(1)}" r="3.5" fill="${color}"/>`;
         }).join("");
         const middleTime = firstTime+(lastTime-firstTime)/2;
-        const xLabels = `<text class="history-axis-label" x="${left}" y="${height-8}" text-anchor="start">${formatHistoryTime(firstTime)}</text><text class="history-axis-label" x="${xAt(middleTime)}" y="${height-8}" text-anchor="middle">${formatHistoryTime(middleTime)}</text><text class="history-axis-label" x="${right}" y="${height-8}" text-anchor="end">${formatHistoryTime(lastTime)}</text>`;
-        chart.innerHTML = `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" role="img" aria-label="Evolução dos votos presidenciais em ${presidentHistory.length} amostras locais"><title>Votos acumulados ao longo do tempo</title>${grid}${lines}${xLabels}</svg>`;
+        const showSeconds = lastTime-firstTime < 60*60*1000;
+        const xLabels = `<text class="history-axis-label" x="${left}" y="${height-8}" text-anchor="start">${formatHistoryTime(firstTime,showSeconds)}</text><text class="history-axis-label" x="${xAt(middleTime)}" y="${height-8}" text-anchor="middle">${formatHistoryTime(middleTime,showSeconds)}</text><text class="history-axis-label" x="${right}" y="${height-8}" text-anchor="end">${formatHistoryTime(lastTime,showSeconds)}</text>`;
+        chart.innerHTML = `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" role="img" aria-label="Evolução dos votos presidenciais em ${presidentHistory.length} amostras locais"><title>Votos acumulados ao longo do tempo</title>${grid}${lines}<g class="history-focus" visibility="hidden" pointer-events="none"><line class="history-focus-line" y1="${top}" y2="${bottom}"/><g class="history-focus-dots"></g></g>${xLabels}</svg><div class="history-tooltip" role="tooltip" hidden></div>`;
+        const svg = chart.querySelector("svg");
+        const focus = svg.querySelector(".history-focus");
+        const focusLine = focus.querySelector("line");
+        const focusDots = focus.querySelector(".history-focus-dots");
+        const tooltip = chart.querySelector(".history-tooltip");
+        const chartPoint = (event) => {
+          const rect = svg.getBoundingClientRect();
+          const pointerX = (event.clientX-rect.left)/rect.width*width;
+          const targetTime = firstTime+Math.max(0,Math.min(1,(pointerX-left)/plotWidth))*(lastTime-firstTime);
+          let pointIndex = 0;
+          for (let index=1; index<presidentHistory.length; index++) {
+            if (Math.abs(presidentHistory[index].time-targetTime) < Math.abs(presidentHistory[pointIndex].time-targetTime)) pointIndex = index;
+          }
+          const point = presidentHistory[pointIndex];
+          const x = xAt(point.time);
+          focusLine.setAttribute("x1",x);
+          focusLine.setAttribute("x2",x);
+          focusDots.innerHTML = activeCandidates.map(candidate => {
+            const votes = point.candidates.find(row => row.id === candidate.id)?.votes || 0;
+            return `<circle class="history-focus-dot" cx="${x}" cy="${yAt(votes)}" r="5" fill="${candidateColor(candidate.id,candidate.party)}"/>`;
+          }).join("");
+          focus.setAttribute("visibility","visible");
+          tooltip.innerHTML = `<span class="history-tooltip-time">${formatHistoryTime(point.time,true)}</span>${activeCandidates.map(candidate => {
+            const votes = point.candidates.find(row => row.id === candidate.id)?.votes || 0;
+            const color = candidateColor(candidate.id,candidate.party);
+            return `<span class="history-tooltip-row"><i class="history-tooltip-swatch" style="background:${color}"></i><span class="history-tooltip-name">${escapeHtml(prettyName(candidate.name))}</span><strong class="history-tooltip-votes">${formatNumber(votes)}</strong></span>`;
+          }).join("")}`;
+          tooltip.hidden = false;
+          const chartRect = chart.getBoundingClientRect();
+          const tooltipWidth = tooltip.offsetWidth;
+          const tooltipHeight = tooltip.offsetHeight;
+          const tooltipX = event.clientX-chartRect.left+14;
+          const tooltipY = event.clientY-chartRect.top-tooltipHeight-10;
+          tooltip.style.left = `${Math.max(8,Math.min(chart.clientWidth-tooltipWidth-8,tooltipX))}px`;
+          tooltip.style.top = `${Math.max(4,Math.min(chart.clientHeight-tooltipHeight-4,tooltipY))}px`;
+        };
+        svg.addEventListener("pointermove",event => chartPoint(event));
+        svg.addEventListener("click",event => chartPoint(event));
+        svg.addEventListener("pointerleave",() => {
+          focus.setAttribute("visibility","hidden");
+          tooltip.hidden = true;
+        });
       }
       function recordPresidentSnapshot(data) {
         const rows = findCandidates(data,"1");
