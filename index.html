@@ -67,7 +67,7 @@
     .map-toggle button { padding: 8px 10px; border: 0; border-radius: 9px; color: #68766f; background: transparent; font-size: 11px; font-weight: 700; }
     .map-toggle button[aria-pressed="true"] { color: var(--green-dark); background: white; box-shadow: 0 2px 7px rgba(33,78,68,.09); }
     .map-wrap { position: relative; display: grid; place-items: center; min-height: 392px; margin: 2px auto 0; }
-    .br-map { display: block; width: min(100%, 450px); max-height: 430px; overflow: visible; }
+    .br-map { display: block; width: min(100%, 510px); max-height: 490px; overflow: visible; }
     .map-states path { fill: #e7ebe4; stroke: #fffefa; stroke-width: 2.5; stroke-linejoin: round; vector-effect: non-scaling-stroke; cursor: pointer; transition: fill .25s ease, filter .16s ease; }
     .map-states path:hover, .map-states path:focus-visible { filter: brightness(.93); }
     .map-states path.is-selected { stroke: #253d35; stroke-width: 3; }
@@ -120,7 +120,7 @@
       .filters { grid-template-columns: repeat(2,minmax(0,1fr)); }
       .filter-hint { grid-column: 1 / -1; max-width: none; }
       .map-wrap { min-height: 360px; }
-      .br-map { width: min(100%, 420px); }
+      .br-map { width: min(100%, 470px); }
       .results-card { min-height: 450px; }
     }
     @media (max-width: 650px) {
@@ -141,7 +141,7 @@
       .card-heading { flex-direction: column; gap: 13px; }
       .map-toggle { align-self: flex-start; }
       .map-wrap { min-height: 300px; margin-top: 4px; }
-      .br-map { width: min(100%, 345px); }
+      .br-map { width: min(100%, 390px); }
       .map-states path { stroke-width: 2; }
       .map-label { font-size: 8px; }
       .results-head { padding: 18px 15px 14px; }
@@ -620,11 +620,18 @@
       }
       function hideTooltip() { $("mapTooltip").hidden = true; }
       function selectState(uf) {
-        stateSelect.value = uf;
+        const deselect = stateSelect.value === uf;
+        stateSelect.value = deselect ? "" : uf;
         citySelect.value = "";
         citySelect.dataset.pending = "";
         hideTooltip();
-        loadMunicipalities().then(() => refreshNow());
+        if (stateSelect.value) {
+          loadMunicipalities().then(() => refreshNow());
+        } else {
+          citySelect.innerHTML = `<option value="">Escolha um estado primeiro</option>`;
+          citySelect.disabled = true;
+          refreshNow();
+        }
         renderMap();
       }
 
