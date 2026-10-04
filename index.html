@@ -258,7 +258,7 @@
             <div class="history-heading">
               <div>
                 <h3 id="presidentHistoryTitle">Evolução dos votos para presidente</h3>
-                <p>O TSE publica o total corrente, sem série histórica. Este navegador começa a guardar cada mudança observada.</p>
+                <p>O TSE publica o total corrente, sem série histórica. Este navegador guarda cada mudança observada; o eixo Y acompanha as candidaturas selecionadas.</p>
               </div>
               <span class="history-badge" id="historyCount">Histórico local</span>
             </div>
@@ -522,11 +522,17 @@
         const firstTime = presidentHistory[0].time;
         const lastTime = presidentHistory[presidentHistory.length-1].time;
         const xAt = time => firstTime === lastTime ? left+plotWidth/2 : left+(time-firstTime)/(lastTime-firstTime)*plotWidth;
+        let minimum = Infinity;
         let maximum = 0;
         for (const point of presidentHistory) for (const candidate of activeCandidates) {
-          maximum = Math.max(maximum,point.candidates.find(row => row.id === candidate.id)?.votes || 0);
+          const votes = point.candidates.find(row => row.id === candidate.id)?.votes || 0;
+          minimum = Math.min(minimum,votes);
+          maximum = Math.max(maximum,votes);
         }
-        const rawStep = Math.max(maximum/4,1);
+        const dataRange = maximum-minimum;
+        const paddedRange = Math.max(dataRange,maximum*.08,1);
+        const padding = paddedRange*.08;
+        const rawStep = Math.max(paddedRange/4,1);
         const magnitude = 10 ** Math.floor(Math.log10(rawStep));
         const normalizedStep = rawStep/magnitude;
         const stepFactor = normalizedStep <= 1 ? 1
@@ -539,10 +545,12 @@
           : normalizedStep <= 7.5 ? 7.5
           : 10;
         const step = stepFactor*magnitude;
-        const scaleMax = maximum ? Math.ceil(maximum/step)*step : 1;
-        const yAt = votes => bottom-(votes/scaleMax)*plotHeight;
-        const grid = Array.from({length:5},(_,index) => {
-          const value = scaleMax*index/4;
+        const scaleMin = Math.max(0,Math.floor(Math.max(0,minimum-padding)/step)*step);
+        const scaleMax = Math.max(scaleMin+step,Math.ceil((maximum+padding)/step)*step);
+        const tickCount = Math.round((scaleMax-scaleMin)/step);
+        const yAt = votes => bottom-((votes-scaleMin)/(scaleMax-scaleMin))*plotHeight;
+        const grid = Array.from({length:tickCount+1},(_,index) => {
+          const value = scaleMin+step*index;
           const y = yAt(value);
           return `<line class="history-gridline" x1="${left}" y1="${y}" x2="${right}" y2="${y}"/><text class="history-axis-label" x="${left-9}" y="${y+3}" text-anchor="end">${escapeHtml(compactHistoryVotes(value))}</text>`;
         }).join("");
