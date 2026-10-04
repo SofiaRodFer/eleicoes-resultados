@@ -485,7 +485,7 @@
         for (const id of [...selectedHistoryIds]) if (!candidatesById.has(id)) selectedHistoryIds.delete(id);
         if (!selectedHistoryIds.size && latestCandidates.length) selectedHistoryIds = new Set(latestCandidates.slice(0,5).map(candidate => candidate.id));
 
-        $("historyCount").textContent = historyStorageError ? "Histórico indisponível" : `${formatNumber(presidentHistory.length)} ${presidentHistory.length === 1 ? "ponto" : "pontos"} locais`;
+        $("historyCount").textContent = historyStorageError ? "Histórico indisponível" : `${formatNumber(presidentHistory.length)} ${presidentHistory.length === 1 ? "ponto local" : "pontos locais"}`;
         legend.innerHTML = candidates.map(candidate => {
           const color = candidateColor(candidate.id,candidate.party);
           const active = selectedHistoryIds.has(candidate.id);
