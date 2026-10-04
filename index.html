@@ -529,7 +529,15 @@
         const rawStep = Math.max(maximum/4,1);
         const magnitude = 10 ** Math.floor(Math.log10(rawStep));
         const normalizedStep = rawStep/magnitude;
-        const stepFactor = normalizedStep <= 1 ? 1 : (normalizedStep <= 2 ? 2 : (normalizedStep <= 5 ? 5 : 10));
+        const stepFactor = normalizedStep <= 1 ? 1
+          : normalizedStep <= 1.5 ? 1.5
+          : normalizedStep <= 2 ? 2
+          : normalizedStep <= 2.5 ? 2.5
+          : normalizedStep <= 3 ? 3
+          : normalizedStep <= 4 ? 4
+          : normalizedStep <= 5 ? 5
+          : normalizedStep <= 7.5 ? 7.5
+          : 10;
         const step = stepFactor*magnitude;
         const scaleMax = maximum ? Math.ceil(maximum/step)*step : 1;
         const yAt = votes => bottom-(votes/scaleMax)*plotHeight;
